@@ -18,3 +18,5 @@ node_modules/
 
 # Logs
 *.log
+
+embedding-guide.md

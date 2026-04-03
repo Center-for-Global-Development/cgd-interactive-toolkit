@@ -85,6 +85,7 @@ Use only these values. Do not invent new ones without updating this document.
 | `navigate` | Moving between sections or steps within the tool | Next/back buttons, tab/step navigation |
 | `compare` | Adding, switching, or removing a comparison scenario | Add scenario, remove scenario, switch active scenario |
 | `external_link` | Clicking a link that leaves the interactive | Project website link, source data link |
+| `download` | User-initiated file export or data download | Download CSV button, Export to Excel, Download chart image |
 
 ### What NOT to track
 
@@ -137,7 +138,7 @@ export function trackView() {
  * Send an engagement event.
  *
  * @param {string} actionType  - One of: filter, preset, detail_open, detail_close,
- *                                view_control, navigate, compare, external_link
+ *                                view_control, navigate, compare, external_link, download
  * @param {string} actionLabel - Specific control identifier, e.g. 'country_filter'
  * @param {string} [actionValue] - Optional value, e.g. 'Kenya' or '2023'
  */
