@@ -24,6 +24,43 @@ Most graphs should be either static images, or simple interactives built within 
 
 ## Delivery checklist
 
+Before you hand an interactive to comms, you should be able to answer **yes** to every item below. This is a final sign-off gate, not a how-to — the detailed requirements (and the code to copy) live in the three documents linked above. If you can't say yes to something, fix it or flag it for comms.
+
+**Scope & process**
+- [ ] I looped in comms before building, not after.
+- [ ] This genuinely needs a custom interactive — it couldn't be a static image or a Flourish chart.
+
+**Embedding & technical** (see `interactive-coding-standard.md`)
+- [ ] It's built as the *inside* of an iframe: no outer border, shadow, background chrome, or outer margin/padding.
+- [ ] It works responsively from ~320px to 1200px wide with no horizontal scroll.
+- [ ] It has no fixed height, and the CGD iframe-resize postMessage script is implemented and resizes correctly after load *and* after interactions that change height.
+- [ ] The interactive's controls — links, downloads, filters, reset — all behave as expected.
+- [ ] Third-party libraries are pinned to exact versions (no `latest`) and loaded minified.
+- [ ] The browser console shows no meaningful errors.
+- [ ] There's no build step, backend, or live data fetch that comms hasn't signed off on.
+
+**Brand & design** (see `cgd-brand-reference.md`)
+- [ ] Colors come from the CGD palette, using the right system (categorical / sequential / polar / stoplight) for the data.
+- [ ] Type uses Sofia Pro (or an approved fallback) and follows the brand hierarchy.
+- [ ] Static titles, captions, and source notes are left for the surrounding CMS text; only dynamic, control-driven titles live inside the embed.
+- [ ] The chart follows data-viz best practices: meaningful title, direct labeling where feasible, no clutter, no rotated text.
+
+**Accessibility** (see `interactive-coding-standard.md`)
+- [ ] Every control works by keyboard, with visible focus states.
+- [ ] Inputs have labels and meaning is never carried by color alone; contrast is readable.
+- [ ] It stays usable at mobile widths and under browser zoom.
+
+**Data & privacy** (see `interactive-coding-standard.md`)
+- [ ] There is no PII or sensitive data, and no secrets, credentials, or API keys in the code or data.
+- [ ] Data sources, dates, transformations, caveats, and licenses are documented.
+
+**Analytics** (see `analytics-tracking-standard.md`)
+- [ ] `tracking.js` is implemented with a unique `interactive_name`; `trackView()` fires once and engagement events fire on the relevant controls.
+- [ ] `TRACKING.md` documents every tracked event.
+
+**Documentation**
+- [ ] The repo has a README covering what it is, where it's embedded, data sources, how to regenerate data, libraries/choices, and hosting notes.
+
 ## Contact
 
 For questions, to discuss a new interactive, or to request additions to this toolkit: [jgaines@cgdev.org](jgaines@cgdev.org).

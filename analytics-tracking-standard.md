@@ -448,13 +448,6 @@ The listener accepts messages from any origin whose hostname ends in one of thes
 4. **Add `trackView()` once when the interactive is first rendered** (ensure it does not fire multiple times).
 5. **Add `trackEngagement()` calls** at each relevant interaction point. Use `change` not `input` for sliders and continuous controls.
 6. **Create or update `TRACKING.md`** in the repo root, documenting all `action_label` values (see the Per-Repo Tracking Documentation section for the required format).
-7. **Test locally.** Open browser devtools, go to the Console, and verify postMessages are firing with correct payloads. Use a temporary listener:
-   ```javascript
-   window.addEventListener('message', (e) => console.log('postMessage:', e.data));
-   ```
-   Confirm each message is a flat object with `type: 'cgd_analytics'`, `event`, and the expected parameters at the top level.
-8. **Deploy and test with GTM Preview.** Open GTM Preview mode, load the cgdev.org page with the embedded interactive, and verify that `interactive_view` and `interactive_engagement` events appear in the Tag Assistant timeline with correct parameter values.
-9. **Verify in GA4.** Check GA4's Realtime report or DebugView to confirm events and parameters are arriving correctly.
 
 ---
 

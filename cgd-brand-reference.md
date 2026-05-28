@@ -48,7 +48,7 @@ From the style guide, the rationale to keep in mind when making design tradeoffs
 | **Gold** | `#FFB52C` | 255, 181, 44 | Caution |
 | **Red** | `#D15553` | 209, 85, 83 | Bad |
 
-> **⚠ "Primary" color depends on context.** The logo and identity system lead with **Teal `#0B4C5B`**. The data-viz system leads with **Light Teal `#006970`** (it's the first categorical color and the center of the sequential ramp). When in doubt: use `#0B4C5B` for brand chrome (headers, logo lockups) and `#006970` as the dominant color *inside* charts.
+The logo and identity system lead with **Teal `#0B4C5B`**. The data-viz system leads with **Light Teal `#006970`** (it's the first categorical color and the center of the sequential ramp). When in doubt: use `#0B4C5B` for brand chrome (headers, logo lockups) and `#006970` as the dominant color *inside* charts.
 
 ### CSS Custom Properties
 
@@ -244,7 +244,7 @@ Treat these point size as a general hierarchy/ratio guide and use relative units
 
 1. **No unnecessary grids or backgrounds** — use them only when needed for clarity.
 2. **Direct labeling over legends** — label series on the chart itself when possible, although adjustment may be necessary to maintain responsiveness
-3. **No overlapping data points or labels** — split into multiple charts or only label a subset of the points, showing more information on hover or via filtering buttons
+3. **No overlapping data points or labels** — split into multiple charts or only label a subset of the points, showing more information on hover or via filtering buttons. As a rough ceiling, directly label only the ~10–12 most important points and let hover/tooltips carry the rest.
 4. **No outlines, shadows, or other effects** that add visual clutter.
 5. **No tilted or rotated text** — shorten or reposition instead.
 6. **Keep titles simple, short, and meaningful** — convey the takeaway, not just the topic.

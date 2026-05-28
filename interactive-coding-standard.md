@@ -128,6 +128,19 @@ Required defaults:
 
 Each separately embedded iframe should have its own unique analytics `interactive_name`.
 
+A minimal reset that enforces the no-chrome, no-spacing defaults:
+
+```css
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { overflow-x: hidden; } /* no horizontal scrollbar inside the iframe */
+```
+
+Use `overflow-x: hidden` rather than `overflow: hidden`. Hiding overflow on both axes will silently clip content if the resize script ever fails to report height, whereas the goal is only to suppress horizontal scroll. Apply any internal spacing with padding on a wrapper element inside the body, not on the root.
+
+### Titles, captions, and source notes
+
+Static figure titles, subtitles, captions, and source/credit notes generally belong in the surrounding cgdev.org page text, not baked into the embed. The host article provides that editorial context, and keeping it in the CMS keeps it editable without redeploying the interactive. The one exception would be a *dynamic* title inside the interactive — one that updates in response to controls (e.g. reflecting the selected year or country).
+
 ### Iframe Resizing
 
 An iframe runs in a separate, cross-origin browsing context, so cgdev.org cannot read the interactive's content height directly and a fixed iframe height would either clip content or leave empty space. Instead, the interactive measures its own height and reports it up to the parent page via `postMessage`. A listener on cgdev.org receives that message and sets the iframe's `height` to match. This is what lets embeds grow and shrink with their content, with no inner scrollbar or trailing gap.
@@ -276,6 +289,16 @@ Default practices:
 - Avoid large images, full library bundles, and unused framework code.
 - Test on a narrow viewport and a typical laptop viewport before launch.
 
+When a continuous control (slider, range input, text field) drives an expensive re-render, debounce the update so dragging stays smooth:
+
+```js
+let timer;
+function update() { clearTimeout(timer); timer = setTimeout(doUpdate, 80); }
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', update));
+```
+
+About 80ms is a good default. Drop to 40–50ms if the update is cheap; raise it if the update does heavy computation.
+
 If an interactive needs a large dataset or library, document why in the README.
 
 ## Documentation
@@ -291,20 +314,9 @@ Each project repository should include a README with:
 
 Each project that sends analytics events must include a `TRACKING.md` file as described in `analytics-tracking-standard.md`.
 
-## QA Checklist
+## QA and Pre-Handoff Checklist
 
-Before publishing, verify:
-
-- The page works at mobile and desktop widths.
-- There is no horizontal scroll inside the iframe.
-- The iframe resize script works after load and after user interactions that change height.
-- Analytics postMessages fire with the expected event names and parameters.
-- Controls work with keyboard only.
-- Links, downloads, filters, and reset controls behave correctly.
-- The browser console has no meaningful errors.
-- Data sources and transformations are documented.
-- No secrets, private data, or PII are present.
-- Third-party library versions are pinned.
+Before publishing or sending an interactive to comms, run through the **Delivery checklist** in the repo README, which consolidates the technical, brand, accessibility, data, and analytics checks into a single sign-off list.
 
 ## Git and Maintenance
 
