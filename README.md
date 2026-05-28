@@ -18,6 +18,8 @@ This is an early-stage project, and we'll build out more materials and guidance.
 
 - **[analytics-tracking-standard.md](analytics-tracking-standard.md)** — A set of rules governing how we track user interactions across embedded interactives using GA4 and postMessage. Includes the event schema, implementation code, naming conventions, and a checklist for adding tracking to a new tool. Any interactive embedded on cgdev.org needs to follow this.
 
+- **[interactive-coding-standard.md](interactive-coding-standard.md)** — Default technical standards for CGD custom interactives, including project structure, library choices, data handling, embedding, accessibility, security, performance, documentation, and QA.
+
 ### Skills (for Claude Code)
 
 - **[skills/cgd-colors/](skills/cgd-colors/)** — A Claude Code skill created by Dany Bahar for CGD data visualization styling. Covers color palette ordering, chart typography, and figure export specs. Install this skill in your Claude Code project if you're producing charts or figures for CGD publications and want to be able to easily reference it with a slash command.
