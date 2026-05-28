@@ -61,6 +61,10 @@ Before you hand an interactive to comms, you should be able to answer **yes** to
 **Documentation**
 - [ ] The repo has a README covering what it is, where it's embedded, data sources, how to regenerate data, libraries/choices, and hosting notes.
 
+## Deployment
+
+Most CGD interactives will be hosted on GitHub Pages from the CGD GitHub organization. Comms will handle this, but if you'd like to have a deployed version as part of your building workflow, you can go to the repo's page -> settings -> pages -> deploy from a branch (pick main).
+
 ## Contact
 
 For questions, to discuss a new interactive, or to request additions to this toolkit: [jgaines@cgdev.org](jgaines@cgdev.org).
