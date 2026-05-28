@@ -128,6 +128,113 @@ Required defaults:
 
 Each separately embedded iframe should have its own unique analytics `interactive_name`.
 
+### Iframe Resizing
+
+An iframe runs in a separate, cross-origin browsing context, so cgdev.org cannot read the interactive's content height directly and a fixed iframe height would either clip content or leave empty space. Instead, the interactive measures its own height and reports it up to the parent page via `postMessage`. A listener on cgdev.org receives that message and sets the iframe's `height` to match. This is what lets embeds grow and shrink with their content, with no inner scrollbar or trailing gap.
+
+This is a two-part contract:
+
+1. **The embed side** (the interactive you build) sends its content height up to the parent. You implement this.
+2. **The parent side** (cgdev.org) listens for those messages and resizes the iframe. This is already deployed; the script is included below for reference so you know exactly what message shape your interactive must send.
+
+#### Message contract
+
+Each message your interactive sends must be a flat object with:
+
+- `type: 'cgd-iframe-resize'` — the discriminator the parent listener filters on.
+- `height` — the content height in CSS pixels, as a finite positive number.
+
+Send it to the target origin `https://www.cgdev.org` (the same parent origin used for analytics postMessages in `analytics-tracking-standard.md`). The parent listener only accepts messages from CGD's hosting platforms (GitHub Pages and Cloudflare Workers), so the interactive must be served from one of those origins for resizing to work in production.
+
+#### Embed-side implementation
+
+Include this script in every embedded interactive. It reports the height once after initial layout, again once web fonts load, and on any later change to content height (responsive reflow, expanding panels, filtered data, etc.):
+
+```html
+<script>
+(function () {
+  var PARENT_ORIGIN = 'https://www.cgdev.org';
+  var lastHeight = -1;
+
+  function measure() {
+    // The host sets height on the <iframe> element, not on <body>, so <body>
+    // is never stretched and this value shrinks as well as grows.
+    return Math.ceil(document.body.getBoundingClientRect().height);
+  }
+
+  function report() {
+    var height = measure();
+    if (height <= 0 || height === lastHeight) return;
+    lastHeight = height;
+    window.parent.postMessage({ type: 'cgd-iframe-resize', height: height }, PARENT_ORIGIN);
+  }
+
+  // Initial layout, plus a re-report once web fonts settle (they can change
+  // text wrapping and therefore height).
+  window.addEventListener('load', report);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(report);
+  }
+
+  // Any later change to content height.
+  if (window.ResizeObserver) {
+    new ResizeObserver(report).observe(document.body);
+  } else {
+    window.addEventListener('resize', report);
+  }
+})();
+</script>
+```
+
+Key implementation notes:
+
+- **Measure `document.body`, not `document.documentElement`.** Because the parent sets the height on the `<iframe>` element rather than on the document, `<body>` tracks the true content height and reports correctly when content both grows and shrinks. Measuring the document element instead can leave it "stuck" at the previous larger height.
+- **Keep margin and padding off the root.** Per the embedding defaults above, the root element should have no outer margin. A top or bottom margin on `<body>` (or a margin that collapses through it) is not always included in the measured height and can cause slight clipping. Use padding inside a wrapper element if you need internal spacing.
+- **The `lastHeight` guard** suppresses duplicate messages when the measured height has not changed, including the no-op resize events the `ResizeObserver` fires after the parent applies the new height.
+- **`ResizeObserver` is the primary trigger.** It covers viewport changes and any DOM/content change that affects height, so you usually do not need to call `report()` manually after interactions. If a height change happens entirely outside the observed box, call `report()` directly after it.
+- **Local testing.** `postMessage` only delivers to `https://www.cgdev.org`, so resizing will not visibly work against a `localhost` parent. To test the message flow locally, temporarily change `PARENT_ORIGIN` to `'*'` (never ship this), or log the outgoing payload and confirm it is a flat object with `type: 'cgd-iframe-resize'` and a sane numeric `height`.
+
+#### Parent-side listener (reference — already deployed on cgdev.org)
+
+You do not need to deploy this; it runs on the CGD website and listens for resize messages from interactives hosted on CGD's GitHub Pages organization or Cloudflare Workers tenant. It is shown here so the embed-side contract above is unambiguous.
+
+```html
+<script>
+(function () {
+  var exactAllowedOrigins = [
+    'https://center-for-global-development.github.io'
+  ];
+  var maxHeight = 20000; // sanity cap against runaway height reports
+  function isAllowedOrigin(origin) {
+    try {
+      var url = new URL(origin);
+      if (url.protocol !== 'https:') return false;
+      if (exactAllowedOrigins.indexOf(origin) !== -1) return true;
+      if (url.hostname.endsWith('.cgdev.workers.dev')) return true;
+      return false;
+    } catch (err) {
+      return false;
+    }
+  }
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.type !== 'cgd-iframe-resize') return;
+    if (!isAllowedOrigin(e.origin)) {
+      console.warn('[cgd-iframe-resize] rejected message from origin:', e.origin);
+      return;
+    }
+    var height = Number(e.data.height);
+    if (!Number.isFinite(height) || height <= 0) return;
+    height = Math.min(Math.ceil(height), maxHeight);
+    document.querySelectorAll('iframe').forEach(function (iframe) {
+      if (iframe.contentWindow === e.source) {
+        iframe.style.height = height + 'px';
+      }
+    });
+  });
+})();
+</script>
+```
+
 ## Accessibility
 
 Accessibility is a baseline requirement, not a polish pass.
