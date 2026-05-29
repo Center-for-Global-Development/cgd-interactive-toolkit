@@ -75,28 +75,6 @@ The logo and identity system lead with **Teal `#0B4C5B`**. The data-viz system l
 }
 ```
 
-### Tailwind Config
-
-```js
-colors: {
-  cgd: {
-    teal: '#0B4C5B',
-    gold: '#FFB52C',
-    'teal-gray': '#85A5AD',
-    'light-teal': '#006970',
-    cream: '#F3F6F7',
-    'dark-gray': '#394649',
-    'teal-black': '#1A272A',
-    blue: '#2D99B5',
-    'light-blue': '#BFDEE0',
-    'light-gold': '#FEE8BF',
-    'light-gray': '#DFE0E2',
-    red: '#D15553',
-    green: '#00896C',
-  }
-}
-```
-
 ---
 
 ## Data Visualization Color Systems
@@ -184,8 +162,6 @@ const CGD_STOPLIGHT = { good: '#00896C', caution: '#FFB52C', bad: '#D15553' };
 const CGD_NEUTRAL = '#DFE0E2';
 ```
 
-> **Print color spaces (CMYK/PMS).** The style guide lists CMYK and Pantone (PMS) values for each color, used for print figures. They are **not relevant to interactives**, which use RGB/Hex. The full CMYK/PMS table lives in `skills/cgd-colors/references/color-palette.md` if needed for a print export.
-
 ---
 
 ## Typography
@@ -236,7 +212,7 @@ Treat these point size as a general hierarchy/ratio guide and use relative units
 
 ### Chart Layout Conventions
 
-- **Title:** top-left, Title Case.
+- **Title:** should usually be ommitted and included in the page the interactive is embedded in, rather than the frame. In rare case where the title will change based on interactivity and thus needs to be in the chart, it should be aligned top left and in title case.
 - **Y-axis label:** horizontal (not rotated), anchored top-left.
 - **X-axis label:** horizontal, centered along the bottom.
 
@@ -247,15 +223,6 @@ Treat these point size as a general hierarchy/ratio guide and use relative units
 3. **No overlapping data points or labels** — split into multiple charts or only label a subset of the points, showing more information on hover or via filtering buttons. As a rough ceiling, directly label only the ~10–12 most important points and let hover/tooltips carry the rest.
 4. **No outlines, shadows, or other effects** that add visual clutter.
 5. **No tilted or rotated text** — shorten or reposition instead.
-6. **Keep titles simple, short, and meaningful** — convey the takeaway, not just the topic.
-
-Title examples:
-
-| | Title |
-|---|-------|
-| ✗ | CDI Leaders, Income Adjusted Rankings |
-| ✓ | Countries Ranked by Development Policies |
-| ✓ | Sweden Leads on Development Policy |
 
 ---
 

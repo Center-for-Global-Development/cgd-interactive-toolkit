@@ -49,7 +49,7 @@ project-name/
     utils.js
 ```
 
-Use descriptive, stable names for repositories and files. Prefer short kebab-case names such as `green-skills-map`, `figure-1.html`, or `salary-threshold-calculator.html`.
+Use descriptive, stable names for repositories and files. Prefer short kebab-case names such as `green-skills-map`, `lead-survey-fig1`, or `salary-threshold-calculator`.
 
 ## Single-File vs. Shared Files
 
@@ -79,9 +79,9 @@ Recommended escalation path:
 3. Plotly when built-in chart interactions are worth the extra weight.
 4. D3 only when the visualization logic or layout truly requires it.
 
-Maps should generally use Leaflet. Confirm basemap licensing, terms, and attribution before launch; do not assume "no API key" means unrestricted use.
+Maps should generally use Leaflet. CARTO is an approved basemap provider; its freely available basemaps (Positron, Dark Matter, and Voyager) require no API key and are good defaults.
 
-Do not use Highcharts (licensing), ECharts (weight and complexity), Shiny (server-side needs), or React or any other tool with a build step, without talking to comms.
+Do not use Highcharts (licensing), ECharts (weight and complexity), Shiny (server-side needs), or React or any other tool with a build step without talking to comms.
 
 ## CDNs and Dependencies
 
