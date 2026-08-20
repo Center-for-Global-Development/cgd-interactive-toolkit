@@ -41,7 +41,7 @@ Before you hand an interactive to comms, you should be able to answer **yes** to
 
 **Brand & design** (see `cgd-brand-reference.md`)
 - [ ] Colors come from the CGD palette, using the right system (categorical / sequential / polar / stoplight) for the data.
-- [ ] Type uses Sofia Pro (or an approved fallback) and follows the brand hierarchy.
+- [ ] Type uses Sofia Pro and follows the brand hierarchy.
 - [ ] Static titles, captions, and source notes are left for the surrounding CMS text; only dynamic, control-driven titles live inside the embed.
 - [ ] The chart follows data-viz best practices: meaningful title, direct labeling where feasible, no clutter, no rotated text.
 

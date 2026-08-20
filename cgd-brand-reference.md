@@ -171,14 +171,24 @@ const CGD_NEUTRAL = '#DFE0E2';
 | Font | Use | Source |
 |------|-----|--------|
 | **Sofia Pro** | Titles, headings, graphics, chart text, web UI | Adobe Fonts |
-| **Bitter** | Body text, print | Google Fonts |
+| **Bitter** | Body text | Google Fonts |
+
+Sofia Pro:
+
+```html
+<link rel="stylesheet" href="https://use.typekit.net/ymp6ujv.css”>
+```
+
+This should load the relevant Sofia Pro styles and weights in from CGD's Adobe Fonts account. If any issues, contact Jeremy. If for some reason Sofia isn't available and you need a quick stand-in, Inter from Google Fonts is a good temporary substitute.
+
+Bitter:
 
 ```html
 <!-- Bitter from Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 ```
 
-Sofia Pro requires an Adobe Fonts subscription or a self-hosted licensed copy. For quick prototypes where Sofia Pro isn't available, use a clean geometric sans-serif (Inter) or system sans-serif as a stand-in, preserving the weight mapping (Bold → Bold, Medium → Medium, Regular → Regular, Light Italic → Light Italic).
+Bitter should only be used for large blocks of body text—if your tool shows multi-paragraph text that reads like a CGD blog post, then it should be styled like it., using Bitter. Otherwise, Sofia Pro should be used for most needs.
 
 ### Figure / Chart Typography
 
